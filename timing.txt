@@ -1,0 +1,13 @@
+5.6.22
+app planning
+18:00 - 18:30 = 0:30
+
+app setup
+19:00 - 19:30 = 0:30
+
+add repo 2 GitHub, project setup, add sass & prettier
+14:10 - 14:40
+
+--------------------------
+
+total 1:30
