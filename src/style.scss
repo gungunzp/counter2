@@ -1,7 +1,87 @@
-body {
-	background-color: #000;
+:root {
+	--green: #1ed760;
+	--green-hover: #1fdf64;
+	/* --shadow: 1px 1px 5px #00000075; */
 }
 
-.test {
-	color: blue;
+body {
+	margin: 0;
+}
+
+.wrapper {
+	color: #fff;
+	font: 14px Arial, sans-serif;
+	/* font: 14px 'Source Sans Pro', sans-serif; */
+	/* font: 14px 'Oswald', sans-serif; */
+	/* font: 16px 'Amatic SC', cursive, Arial, sans-serif; */
+	font: 16px 'PT Sans Narrow', sans-serif;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* background-image: linear-gradient(#000 80vh, var(--green)); */
+	background-image: radial-gradient(circle at top, #000 70vh, var(--green));
+	background-color: #000; /* fallback */
+}
+
+.category {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.category__title {
+	font-weight: normal;
+	margin: 10px 0;
+	/* text-shadow: var(--shadow); */
+}
+
+.category__actions {
+	display: flex;
+	width: 160px; /* fix flexbox bug in Safari iOS */
+	/* text-shadow: var(--shadow); */
+}
+
+.category__actions--total {
+	justify-content: space-between;
+	width: 230px;
+}
+
+.category__value {
+	width: 60px;
+	font-size: 44px;
+	text-align: center;
+}
+
+button {
+	width: 1em;
+	height: 1em;
+	font-size: 48px;
+	background-color: var(--green);
+	line-height: 1;
+	border: none;
+	outline: none;
+	/* box-shadow: var(--shadow); */
+	border-radius: 50%;
+	padding: 0;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: var(--green-hover);
+	transform: scale(1.07);
+}
+
+/* centering minus sign (to rewrite) */
+.category__actions button:first-child {
+	line-height: 0.85;
+	padding-bottom: 0.15em;
+}
+
+.category__actions--total button {
+	width: 1.5em;
+	height: 1.5em;
+	font-size: 35px;
+	border-radius: 20%;
 }
