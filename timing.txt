@@ -12,6 +12,11 @@ add fonts, font-awesome and markup from counter1 repo
 14:40 - 15:10
 16:30 - 17:00
 
+
+5.7.22
+add logic from vanilla js version (counter1)
+17:05 - 18:35 = 1:30
+
 --------------------------
 
-total 2:30
+total 3:30
