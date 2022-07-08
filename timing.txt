@@ -6,17 +6,28 @@ app setup
 19:00 - 19:30 = 0:30
 
 add repo 2 GitHub, project setup, add sass & prettier
-14:10 - 14:40
+14:10 - 14:40 = 0:30
 
 add fonts, font-awesome and markup from counter1 repo
-14:40 - 15:10
-16:30 - 17:00
+14:40 - 15:10 = 0:30
+16:30 - 17:00 = 0:30
 
 
 5.7.22
 add logic from vanilla js version (counter1)
 17:05 - 18:35 = 1:30
 
+7.7.22
+react logic refactoring
+13:00 - 13:30 = 0:30
+
+8.7.22
+logic refactoring
+14:05 - 14:55 = 0:50
+
+refactoring, fix immutability for nested state, add texts data
+18:15 - 20:25 = 2:10
+
 --------------------------
 
-total 3:30
+total 7:30

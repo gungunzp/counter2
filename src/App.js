@@ -1,74 +1,60 @@
 import { useState, useEffect } from 'react';
 import isMobileOrTablet from './helpers/mobileAndTabletChecker';
+import txt from './helpers/texts';
 import './style.scss';
 
-// const countersState = [
-// 	{ id: 'declined', title: 'Відмовились:', value: 0 },
-// 	{ id: 'answered', title: 'Відповіли на питання:', value: 0 },
-// 	{ id: 'listened', title: 'Почули Євангеліє:', value: 0 },
-// ];
-
-// const totalCounterState = { id: 'total', title: 'Усього:', value: 0 };
-
-const txt = {
-	// declined: 'Відмовились:',
-	// answered: 'Відповіли на питання:',
-	// listened: 'Почули Євангеліє:',
-	// total: 'Усього:',
-	areYouSure: 'Ви впевнені, що хочете видалити всі дані?',
-	copied: 'Ці дані були скопійовані до буфера:',
-};
-
 function App() {
-	// const [counters, setCounters] = useState(countersState);
-	// const [totalCounter, setTotalCounter] = useState(totalCounterState);
+	const [counters, setCounters] = useState({
+		declined: { id: 'declined', title: txt.declined, value: 0 },
+		answered: { id: 'answered', title: txt.answered, value: 0 },
+		listened: { id: 'listened', title: txt.listened, value: 0 },
+		_total: { id: '_total', title: txt._total, value: 0 },
+	});
+	const counterKeys = Object.keys(counters);
 
-	const [counters, setCounters] = useState([
-		{ id: 'declined', title: 'Відмовились:', value: 0 },
-		{ id: 'answered', title: 'Відповіли на питання:', value: 0 },
-		{ id: 'listened', title: 'Почули Євангеліє:', value: 0 },
-	]);
-	const [totalCounter, setTotalCounter] = useState({ id: 'total', title: 'Усього:', value: 0 });
+	const updateAll = callback => {
+		const newCounters = {};
 
-	useEffect(() => {
-		const cntrs = [...counters];
+		counterKeys.forEach(key => {
+			newCounters[key] = { ...counters[key] };
+			callback(newCounters, key);
+		});
 
-		for (let i = 0; i < cntrs.length; i++) {
-			cntrs[i].value = +localStorage.getItem(cntrs[i].id) || 0;
-		}
-
-		setCounters(cntrs);
-	}, []);
-
-	useEffect(() => {
-		const totalCntr = { ...totalCounter };
-		totalCntr.value = +localStorage.getItem(totalCntr.id) || 0;
-
-		setTotalCounter(totalCntr);
-	}, []);
-
-	const updateCounter = isIncrease => cntrId => {
-		const cntrs = [...counters];
-
-		for (let i = 0; i < cntrs.length; i++) {
-			if (cntrs[i].id === cntrId) {
-				isIncrease ? cntrs[i].value++ : cntrs[i].value--;
-				localStorage.setItem(cntrId, cntrs[i].value);
-				i = cntrs.length;
-			}
-		}
-
-		setCounters(cntrs);
+		setCounters(newCounters);
 	};
 
 	useEffect(() => {
-		const totalValue = counters.map(el => el.value).reduce((acc, curr) => acc + curr);
-		const totalCntr = { ...totalCounter };
-		totalCntr.value = totalValue;
+		updateAll((newCounters, key) => {
+			newCounters[key].value = +localStorage.getItem(key) || 0;
+		});
+	}, []);
 
-		setTotalCounter(totalCntr);
-		localStorage.setItem(totalCntr.id, totalCntr.value);
-	}, [counters]);
+	const update = (key, isInc) => {
+		let { value } = counters[key];
+
+		isInc ? value++ : value--;
+
+		localStorage.setItem(key, value);
+		setCounters(prevState => ({
+			...prevState,
+			[key]: {
+				...prevState[key],
+				value,
+			},
+		}));
+	};
+
+	const decrement = key => () => {
+		if (counters[key].value > 0) {
+			update(key, false);
+			update('_total', false);
+		}
+	};
+
+	const increment = key => () => {
+		update(key, true);
+		update('_total', true);
+	};
 
 	const share = () => {
 		const d = new Date();
@@ -77,9 +63,9 @@ function App() {
 		// }.${d.getFullYear()}`;
 		const date = d.toLocaleString();
 
-		const result = `${counters.map(({ title, value }) => `${title} ${value}\n`).join('')}\n${
-			totalCounter.title
-		} ${totalCounter.value}\n\n${date}`;
+		const result = `${counterKeys
+			.map(key => `${counters[key].title} ${counters[key].value}\n`)
+			.join('')}\n${date}`;
 		// add location
 
 		navigator.clipboard.writeText(result);
@@ -88,43 +74,40 @@ function App() {
 	};
 
 	const reset = () => {
-		if (!!totalCounter.value && window.confirm(txt.areYouSure)) {
-			const cntrs = [...counters];
-
-			for (let i = 0; i < cntrs.length; i++) {
-				cntrs[i].value = 0;
-				localStorage.setItem(cntrs[i].id, 0);
-			}
-
-			setCounters(cntrs);
+		if (!!counters._total.value && window.confirm(txt.areYouSure)) {
+			updateAll((newCounters, key) => {
+				newCounters[key].value = 0;
+				// localStorage.setItem(key, 0);
+			});
+			// if there gonna be change in fields names
+			localStorage.clear();
 		}
 	};
 
 	return (
 		<main className="wrapper">
-			{counters.map(({ id, title, value }) => (
-				<section className="category" key={id}>
-					<h2 className="category__title">{title}</h2>
-					<div id={id} className="category__actions">
-						<button onClick={() => value > 0 && updateCounter(false)(id)}>-</button>
-						<span className="category__value">{value}</span>
-						<button onClick={() => updateCounter(true)(id)}>+</button>
-					</div>
+			{counterKeys.map(key => (
+				<section className="category" key={key}>
+					<h2 className="category__title">{counters[key].title}</h2>
+					{key !== '_total' ? (
+						<div className="category__actions">
+							<button onClick={decrement(key)}>-</button>
+							<span className="category__value">{counters[key].value}</span>
+							<button onClick={increment(key)}>+</button>
+						</div>
+					) : (
+						<div className="category__actions category__actions--total">
+							<button onClick={reset}>
+								<i className="fa-solid fa-arrow-rotate-right"></i>
+							</button>
+							<span className="category__value">{counters[key].value}</span>
+							<button onClick={share}>
+								<i className="fa-solid fa-arrow-up-right-from-square"></i>
+							</button>
+						</div>
+					)}
 				</section>
 			))}
-
-			<section className="category">
-				<h2 className="category__title">{totalCounter.title}</h2>
-				<div id={totalCounter.id} className="category__actions category__actions--total">
-					<button id="reset" onClick={reset}>
-						<i className="fa-solid fa-arrow-rotate-right"></i>
-					</button>
-					<span className="category__value">{totalCounter.value}</span>
-					<button id="share" onClick={share}>
-						<i className="fa-solid fa-arrow-up-right-from-square"></i>
-					</button>
-				</div>
-			</section>
 		</main>
 	);
 }
