@@ -28,6 +28,35 @@ logic refactoring
 refactoring, fix immutability for nested state, add texts data
 18:15 - 20:25 = 2:10
 
+split onto components planning
+20:25 - 20:40 = 0:15
+
+29.10.22
+timer on add
+21:00 - 
+
 --------------------------
 
 total 7:30
+
+
+---
+
+// TODO
+
+App
+
+- CounterContainer
+-- CategoryComponent
+--- CounterComponent
+-- CategoryComponent
+- CounterContainer
+*3
+
+- TotalCounterContainer
+-- CategoryComponent
+--- TotalCounterComponent
+-- CategoryComponent
+- TotalCounterContainer
+
+App

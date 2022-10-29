@@ -1,27 +1,32 @@
 :root {
 	--green: #1ed760;
 	--green-hover: #1fdf64;
+	--black: #000;
+	--white: #fff;
+	--border-radius: 6px;
+	--font-family: 'PT Sans Narrow', sans-serif;
 	/* --shadow: 1px 1px 5px #00000075; */
 }
 
 body {
 	margin: 0;
+	background-color: var(--black);
 }
 
 .wrapper {
-	color: #fff;
+	color: var(--white);
 	font: 14px Arial, sans-serif;
 	/* font: 14px 'Source Sans Pro', sans-serif; */
 	/* font: 14px 'Oswald', sans-serif; */
 	/* font: 16px 'Amatic SC', cursive, Arial, sans-serif; */
-	font: 16px 'PT Sans Narrow', sans-serif;
+	font: 16px var(--font-family);
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* background-image: linear-gradient(#000 80vh, var(--green)); */
-	background-image: radial-gradient(circle at top, #000 70vh, var(--green));
-	background-color: #000; /* fallback */
+	/* background-image: linear-gradient(var(--black) 80vh, var(--green)); */
+	background-image: radial-gradient(circle at top, var(--black) 70vh, var(--green));
+	background-color: var(--black); /* fallback */
 }
 
 .category {
@@ -41,11 +46,11 @@ body {
 	display: flex;
 	width: 160px; /* fix flexbox bug in Safari iOS */
 	/* text-shadow: var(--shadow); */
-}
 
-.category__actions--total {
-	justify-content: space-between;
-	width: 230px;
+	&--total {
+		justify-content: space-between;
+		width: 230px;
+	}
 }
 
 .category__value {
@@ -66,11 +71,13 @@ button {
 	border-radius: 50%;
 	padding: 0;
 	cursor: pointer;
+	transition: 0.2s;
 }
 
 button:hover {
 	background-color: var(--green-hover);
-	transform: scale(1.07);
+	// transform: scale(1.07);
+	transform: scale(1.05);
 }
 
 /* centering minus sign (to rewrite) */
@@ -83,5 +90,8 @@ button:hover {
 	width: 1.5em;
 	height: 1.5em;
 	font-size: 35px;
-	border-radius: 20%;
+	border-radius: var(--border-radius);
 }
+
+// TODO:
+// mixin or extends for btn styles (border radius) ...

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Stopwatch from './components/Stopwatch';
 import isMobileOrTablet from './helpers/mobileAndTabletChecker';
 import txt from './helpers/texts';
 import './style.scss';
@@ -108,6 +109,7 @@ function App() {
 					)}
 				</section>
 			))}
+			<Stopwatch />
 		</main>
 	);
 }

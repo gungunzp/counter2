@@ -5,6 +5,11 @@ const txt = {
 	_total: 'Усього:',
 	areYouSure: 'Ви впевнені, що хочете видалити всі дані?',
 	copied: 'Ці дані були скопійовані до буфера:',
+	start: 'старт',
+	lap: 'круг',
+	stop: 'стоп',
+	continue: 'далі',
+	reset: 'скинути',
 };
 
 export default txt;
