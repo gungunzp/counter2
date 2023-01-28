@@ -93,5 +93,12 @@ button:hover {
 	border-radius: var(--border-radius);
 }
 
+.update {
+	color: gray;
+	position: relative;
+	left: 50px;
+	top: 10px;
+}
+
 // TODO:
 // mixin or extends for btn styles (border radius) ...

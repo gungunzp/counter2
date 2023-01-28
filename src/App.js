@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Stopwatch from './components/Stopwatch';
+// import Stopwatch from './components/Stopwatch';
 import isMobileOrTablet from './helpers/mobileAndTabletChecker';
 import txt from './helpers/texts';
 import './style.scss';
@@ -11,6 +11,7 @@ function App() {
 		listened: { id: 'listened', title: txt.listened, value: 0 },
 		_total: { id: '_total', title: txt._total, value: 0 },
 	});
+	const [updateIndicator, setUpdateIndicator] = useState(localStorage.getItem('__last_update'));
 	const counterKeys = Object.keys(counters);
 
 	const updateAll = callback => {
@@ -24,11 +25,21 @@ function App() {
 		setCounters(newCounters);
 	};
 
+	const updateTimeIndicator = () => {
+		const currentTime = (new Date()).toLocaleString();
+		setUpdateIndicator(currentTime);
+		localStorage.setItem('__last_update', currentTime);
+	}
+
 	useEffect(() => {
 		updateAll((newCounters, key) => {
 			newCounters[key].value = +localStorage.getItem(key) || 0;
 		});
 	}, []);
+
+	useEffect(() => {
+		updateTimeIndicator();
+	}, [counters._total]);
 
 	const update = (key, isInc) => {
 		let { value } = counters[key];
@@ -43,6 +54,10 @@ function App() {
 				value,
 			},
 		}));
+
+		if (key === '_total') {
+			updateTimeIndicator();
+		}
 	};
 
 	const decrement = key => () => {
@@ -109,7 +124,9 @@ function App() {
 					)}
 				</section>
 			))}
-			<Stopwatch />
+			{/* WIP
+			<Stopwatch /> */}
+			<div className='update'>{updateIndicator}</div>
 		</main>
 	);
 }
